@@ -10,10 +10,10 @@ server::server(QObject *parent)
 }
 
 void server::onRecive(){
-    std::cout << "user : " << QString(bridge->readAll()).toStdString();
+    std::cout << QString(bridge->readAll()).toStdString();
     std::string your_word;
     std::getline(std::cin , your_word);
-    bridge->write((your_word+'\n').c_str());
+    bridge->write((user_name + " : " + your_word+'\n').c_str());
 }
 
 void server::onConnection(){
@@ -23,7 +23,7 @@ void server::onConnection(){
 }
 
 void server::start(QString IPv4){
+
     host->listen(QHostAddress(IPv4) , 10100);
     QObject::connect(host , &QTcpServer::newConnection , this , &server::onConnection);
-
 }

@@ -24,10 +24,10 @@ socket::~socket(){
 }
 
 void socket::ReadyRead(){
-    std::cout << "user : " <<QString(client->readAll()).toStdString();
+    std::cout << QString(client->readAll()).toStdString();
     std::string your_word;
     std::getline(std::cin , your_word);
-    client->write((your_word+'\n').c_str());
+    client->write((user_name + " : " + your_word+'\n').c_str());
 }
 
 void socket::onConnected(){
@@ -35,10 +35,11 @@ void socket::onConnected(){
     QObject::connect(client , &QTcpSocket::readyRead , this , &socket::ReadyRead);
     std::string your_word;
     std::getline(std::cin , your_word);
-    client->write((your_word+'\n').c_str());
+    client->write((user_name + " : " + your_word+'\n').c_str());
 }
 
 bool socket::start(QString IPv4){
+
     IPv4 = network_(IPv4);
 
     QObject::connect(client , &QTcpSocket::connected , this , &socket::onConnected);

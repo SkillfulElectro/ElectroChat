@@ -8,7 +8,9 @@ class socket : public QObject
 {
     Q_OBJECT
     QTcpSocket* client;
+
 public:
+    std::string user_name;
     socket();
     ~socket();
     bool start(QString);
